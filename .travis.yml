@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_istall:
+  - docker build -t mohhus60/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run mohhus60/react-test npm tets -- --coverage
+
+after_success:
+  - docker build -t mohhus60/multi-client ./client
+  - docker build -t mohhus60/multi-nginx ./nginx
+  - docker build -t mohhus60/multi-server ./server
+  - docker build -t mohhus60/multi-worker ./worker
+#docker login
+echoc "$DOCKER_PASSWORD" | docker login -u "$DOCKCER_ID" --password-stdin
+#push images to docker hub
+  - docker push mohhus60/multi-client
+  - docker push mohhus60/multi-nginx
+  - docker push mohhus60/multi-server
+  - docker push mohhus60/multi-worker
