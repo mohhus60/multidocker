@@ -13,7 +13,7 @@ after_success:
   - docker build -t mohhus60/multi-nginx ./nginx
   - docker build -t mohhus60/multi-server ./server
   - docker build -t mohhus60/multi-worker ./worker
-#docker login
+#docker login to cil
   - echo "$DOCKER_PASSWORD" | docker login -username "$DOCKCER_ID" --password-stdin
 #push images to docker hub
   - docker push mohhus60/multi-client
